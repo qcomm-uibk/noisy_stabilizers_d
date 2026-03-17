@@ -1,0 +1,8 @@
+{
+    "name":"Test",
+    "input":{
+        "dimension":2,
+        "systems":2,
+        "circuit":[{"outcome":0,"measurement":"z","measure":[1]}]
+    }
+}

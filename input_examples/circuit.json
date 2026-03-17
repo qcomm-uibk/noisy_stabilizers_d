@@ -1,0 +1,11 @@
+{
+    "name":"Test",
+    "input":{
+        "dimension":2,
+        "systems":4,
+        "circuit":[ 
+            {"channel":"bitflip","probability":0.1,"qubits":[0]},
+            {"outcome":1,"measurement":"z","measure":[0]}      
+        ]
+    }
+}

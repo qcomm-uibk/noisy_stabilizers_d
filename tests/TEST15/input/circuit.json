@@ -1,0 +1,1 @@
+{"name": "circuit", "input": {"dimension": 2, "systems": 3, "circuit": [{"gate": "h", "target": [1], "noise": []}, {"outcome": 0, "measurement": "z", "measure": [1], "noise": []}]}}

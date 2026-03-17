@@ -1,0 +1,8 @@
+{
+    "name":"Test",
+    "input":{
+        "dimension":5,
+        "systems":2,
+        "circuit":[{"gate":"multiplication","target":[0], "factor":2}]
+    }
+}

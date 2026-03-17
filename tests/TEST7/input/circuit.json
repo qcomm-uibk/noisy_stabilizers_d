@@ -1,0 +1,19 @@
+{
+    "name":"Test",
+    "input":{
+        "dimension":2,
+        "systems":2,
+        "circuit":[
+            {
+                "channel":"arbitrary",
+                "weights":[0.3,0.2,0.5],
+                "operators":[
+                    "0,1,1,0",
+                    "1,0,0,1",
+                    "1,1,0,0"
+                ]
+            },
+            {"gate":"h","target":[0]}            
+        ]
+    }
+}

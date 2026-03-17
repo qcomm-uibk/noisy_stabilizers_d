@@ -1,0 +1,14 @@
+{
+    "name":"Test",
+    "input":{
+        "dimension":2,
+        "systems":2,
+        "circuit":[
+            {"gate":"s","target":[0]},
+            {"gate":"s","target":[0]},
+            {"gate":"s","target":[0]},
+            {"gate":"s","target":[0]},
+            {"gate":"s","target":[0]}
+        ]
+    }
+}

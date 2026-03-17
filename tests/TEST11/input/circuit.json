@@ -1,0 +1,11 @@
+{
+    "name":"Test",
+    "input":{
+        "dimension":2,
+        "systems":2,
+        "circuit":[
+            {"channel":"phaseflip","probability":0.1,"qubits":[0]},
+            {"gate":"h","target":[0]}
+        ]
+    }
+}

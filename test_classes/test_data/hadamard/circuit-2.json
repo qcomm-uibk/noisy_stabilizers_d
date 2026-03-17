@@ -1,0 +1,11 @@
+{
+    "name":"Test",
+    "input":{
+        "dimension":2,
+        "systems":2,
+        "circuit":[
+            {"channel":"depolarizing","lambda":0.989,"qubits":[1]},
+            {"gate":"h","target":[1],"noise":[{"channel":"depolarizing","lambda":0.989,"qubits":[1]}]}
+        ]
+    }
+}
