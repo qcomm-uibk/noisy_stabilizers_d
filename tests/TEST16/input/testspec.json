@@ -2,6 +2,17 @@
     "input": [
         {
             "compare":"stabilizers"
+        },
+        {
+            "reduce":[0,49],
+            "compare":"pure_state",
+            "matrix_file":"reduced_pure_state.csv"
+        },
+        {
+            "reduce":[0,49],
+            "compare":"mixed_state",
+            "fidelity": [0.78627309],
+            "matrix_file":"reduced_mixed_state.csv"
         }
     ]
 }

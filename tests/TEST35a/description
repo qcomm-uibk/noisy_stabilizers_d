@@ -1,0 +1,2 @@
+Test state update for perfect CNOT gate (hadamard in front), 0,0 input state
+(attention, output stabilizers are ordered the other way around)

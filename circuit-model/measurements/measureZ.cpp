@@ -122,10 +122,10 @@ NoiseMap* MeasureZ::step2b(vector<NoiseMap*> *newNoiseMaps)
     // Find all maps that do not commute with the measurement
 
     for (int i = 0; i < mState->getNoiseMaps().size(); i++)
-        newNoiseMaps->push_back(mState->getNoiseMaps().at(i));
+        newNoiseMaps->push_back(mState->getNoiseMaps().at(i)->copy());
     
     vector<int> mapIndices;
-    vector<NoiseMap*> *mapsToCompile;
+    vector<NoiseMap*> *mapsToCompile = new vector<NoiseMap*>();
 
     int n = mNewStabilizer->getColumnsOfRow(0) / 2;    
 
@@ -142,13 +142,15 @@ NoiseMap* MeasureZ::step2b(vector<NoiseMap*> *newNoiseMaps)
             {
                 mapIndices.push_back(i);                
                 mapsToCompile->push_back(noiseMap);
-                break;
+                
+                //AP: I don't think here should be a break according to spec, so I removed it
+                //break;
             }
         }
     }
     NoiseMap* newMap = compileMaps(mapsToCompile);
     // Remove old maps
-    for (int mapIndex = 0; mapIndex < mapIndices.size(); mapIndex++)
+    for (int mapIndex = mapIndices.size()-1; mapIndex >= 0; mapIndex--)
         newNoiseMaps->erase(newNoiseMaps->begin() + mapIndices.at(mapIndex));
     
     delete mapsToCompile;
@@ -195,8 +197,8 @@ void MeasureZ::step3b(NoiseMap* newMap, vector<NoiseMap*> *newNoiseMaps)
     
     int expectedOutcome = newState->getPhase()->getValue(resultIdx);
     double identityWeight;
-    VectorDouble* newWeights;
-    MatrixInt* newNoises;
+    VectorDouble* newWeights = new VectorDouble();
+    MatrixInt* newNoises = new MatrixInt();
 
     // "outcome" is the outcome specified by the circuit, we do not support randomly
     // picking a result for this branch at this point
@@ -208,10 +210,12 @@ void MeasureZ::step3b(NoiseMap* newMap, vector<NoiseMap*> *newNoiseMaps)
         {
             if (newMap->getNoises()->getValue(i, mIdx + mNumRows) == 0)
             {
-                newWeights->append(newWeights->getValue(i));
+                newWeights->append(newMap->getWeights()->getValue(i));
                 newNoises->addRow(newMap->getNoises()->getRow(i));
             }
         }
+
+        newWeights = newWeights->divideByDouble(identityWeight + newWeights->sum());
     }
     else
     {
@@ -219,17 +223,18 @@ void MeasureZ::step3b(NoiseMap* newMap, vector<NoiseMap*> *newNoiseMaps)
         {
             if (newMap->getNoises()->getValue(i, mIdx + mNumRows) == 1)
             {
-                newWeights->append(newWeights->getValue(i));
+                newWeights->append(newMap->getWeights()->getValue(i));
                 newNoises->addRow(newMap->getNoises()->getRow(i));
             }
         }
+    
+        newWeights = newWeights->divideByDouble(newWeights->sum());
     }
 
-    // Normalize element-wise
-    newWeights = newWeights->divideByDouble(newWeights->sum());
     newNoiseMaps->push_back(new NoiseMap(newNoises, newWeights));
-
-    delete newState;
+    
+    mNewStabilizer = newState->getStabilizer();
+    mNewPhase = newState->getPhase();
 }
 
 NoiseMap* MeasureZ::compileMaps(vector<NoiseMap*> *listOfMaps)
@@ -248,6 +253,20 @@ NoiseMap* MeasureZ::compileMaps(vector<NoiseMap*> *listOfMaps)
         MatrixInt* newNoises = new MatrixInt();
 
         NoiseMap* nextMap = listOfMaps->at(i);
+
+        double identityWeightCurrent = 1.0 - currentMap->getWeights()->sum();
+        double identityWeightNext = 1.0 - nextMap->getWeights()->sum();
+
+        for (int j = 0; j < currentMap->getWeights()->getSize(); j++){
+            newWeights->append(identityWeightNext * currentMap->getWeights()->getValue(j));
+            newNoises->addRow(currentMap->getNoises()->getRow(j));
+        }
+
+        for (int j = 0; j < nextMap->getWeights()->getSize(); j++){
+            newWeights->append(identityWeightCurrent * nextMap->getWeights()->getValue(j));
+            newNoises->addRow(nextMap->getNoises()->getRow(j));
+        }
+
         for (int j = 0; j < currentMap->getWeights()->getSize(); j++)
         {
             for (int k = 0; k < nextMap->getWeights()->getSize(); k++)
@@ -306,6 +325,13 @@ NoisyState* MeasureZ::Apply(NoisyState *noisyState)
     {
         NoiseMap* newMap = step2b(&newNoiseMaps);
         step3b(newMap, &newNoiseMaps);
+
+        for(int i=0; i<mNewStabilizer->getNumRows(); i++){
+            if(mNewStabilizer->getRow(i)->getValue(mIdx) == 1){
+                mNewPhase->setValue(i, mOutcome);
+            }
+        }
+
         delete newMap;
     }
 

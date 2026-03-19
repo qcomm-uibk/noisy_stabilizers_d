@@ -1,0 +1,12 @@
+{
+    "input": [         
+        {
+            "compare":"stabilizers"
+        },
+        {
+            "compare":"mixed_state",
+            "fidelity": [1.0],
+            "matrix_file":"mixed_density_matrix.csv"
+        }
+    ]
+}

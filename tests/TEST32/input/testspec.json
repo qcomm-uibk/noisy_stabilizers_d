@@ -1,0 +1,16 @@
+{
+    "input": [  
+        {
+            "reduce":[0,3],
+            "compare":"pure_state",
+            "fidelity": [0.9],
+            "matrix_file":"pure_density_matrix.csv"
+        },
+        {
+            "reduce":[0,3],
+            "compare":"mixed_state",
+            "fidelity": [0.9],
+            "matrix_file":"mixed_density_matrix.csv"
+        }
+    ]
+}

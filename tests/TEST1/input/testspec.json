@@ -2,6 +2,10 @@
     "input": [
         {
             "compare":"stabilizers"
+        },
+        {
+            "compare":"pure_state",
+            "matrix_file":"pure_state_matrix.csv"
         }
     ]
 }

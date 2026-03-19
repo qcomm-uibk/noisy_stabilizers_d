@@ -1,0 +1,10 @@
+{
+    "name":"Test",
+    "input":{
+        "dimension":2,
+        "systems":4,
+        "circuit":[             
+            {"noise":[{"channel":"bitflip","probability":0.1,"qubits":[1]}], "outcome":0,"measurement":"bell","measure":[1,2]}
+        ]
+    }
+}

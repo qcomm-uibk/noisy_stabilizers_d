@@ -1,0 +1,35 @@
+{
+    "input": [
+        {
+            "compare":"stabilizers"
+        },
+        {
+            "reduce":[9,54],
+            "compare":"pure_state",
+            "matrix_file":"bellgraph_pure_state.csv"
+        },
+        {
+            "reduce":[21,42],
+            "compare":"pure_state",
+            "matrix_file":"bellgraph_pure_state.csv"
+        },
+        {
+            "reduce":[9,54],
+            "compare":"mixed_state",
+            "fidelity": [0.87649354],
+            "matrix_file":"pair1_reduced_mixed_state.csv"
+        },
+        {
+            "reduce":[21,42],
+            "compare":"mixed_state",
+            "fidelity": [0.90183578],
+            "matrix_file":"pair2_reduced_mixed_state.csv"
+        },
+        {
+            "reduce":[9,21,42,54],
+            "compare":"mixed_state",
+            "fidelity": [0.80127462],
+            "matrix_file":"combined_reduced_mixed_state.csv"
+        }
+    ]
+}
